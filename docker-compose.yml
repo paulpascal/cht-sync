@@ -2,7 +2,6 @@ version: '3.7'
 
 services:
   logstash:
-    image: medicmobile/cht-logstash-couchdb:latest
     build: ./logstash/
     restart: always
     environment:
@@ -36,3 +35,14 @@ services:
       - ROOT_POSTGRES_SCHEMA=${POSTGRES_SCHEMA}
       - DATAEMON_INITAL_PACKAGE=${CHT_PIPELINE_BRANCH_URL}
 
+  metabase:
+    image: metabase/metabase
+    environment:
+      MB_DB_TYPE: postgres
+      MB_DB_DBNAME: data
+      MB_DB_PORT: 5432
+      MB_DB_USER: ${POSTGRES_USER}
+      MB_DB_PASS: ${POSTGRES_PASSWORD}
+      MB_DB_HOST: postgres
+    ports:
+       - 3001:3000
